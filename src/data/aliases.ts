@@ -156,7 +156,13 @@ const EN: Record<string, readonly string[]> = {
   'mosquito': ['culex', 'common house mosquito'],
 }
 
-const BY_LOCALE: Record<Locale, Record<string, readonly string[]>> = { zh: ZH, en: EN }
+/**
+ * 乌兹别克语俗名表暂缺（数据翻译分批进行中），先给空表占位——
+ * aliasesOf/matchesAlias 对空表的行为就是"没有俗名"，不影响其他两语言。
+ */
+const UZ: Record<string, readonly string[]> = {}
+
+const BY_LOCALE: Record<Locale, Record<string, readonly string[]>> = { zh: ZH, en: EN, uz: UZ }
 
 const NONE: readonly string[] = []
 
