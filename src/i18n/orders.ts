@@ -39,6 +39,22 @@ export const ORDER_LABEL: Record<Locale, Record<OrderKey, string>> = {
     trichoptera: 'Caddisflies (Trichoptera)',
     phasmatodea: 'Stick & Leaf Insects (Phasmatodea)',
   },
+  uz: {
+    coleoptera: 'Qattiqqanotlilar (Coleoptera)',
+    lepidoptera: 'Kapalaklar (Lepidoptera)',
+    hymenoptera: 'Ari, ninachalar va chumolilar (Hymenoptera)',
+    odonata: 'Ninachalar (Odonata)',
+    mantodea: 'Duofoslar (Mantodea)',
+    orthoptera: 'Chigirtka va cirildoqlar (Orthoptera)',
+    hemiptera: 'Yarim qattiqqanotlilar (Hemiptera)',
+    diptera: 'Ikki qanotlilar (Diptera)',
+    neuroptera: 'Tor qanotlilar (Neuroptera)',
+    dermaptera: "Qulog'ichqurtlar (Dermaptera)",
+    megaloptera: 'Katta qanotlilar (Megaloptera)',
+    blattodea: 'Tarakonlar va termitlar (Blattodea)',
+    trichoptera: 'Tukli qanotlilar (Trichoptera)',
+    phasmatodea: 'Tayoqchasimon hasharotlar (Phasmatodea)',
+  },
 }
 
 /** 变态类型的显示名。英文同样双标：常用说法在前，术语在括号里。 */
@@ -47,5 +63,9 @@ export const METAMORPHOSIS_LABEL: Record<Locale, Record<Metamorphosis, string>> 
   en: {
     complete: 'Complete metamorphosis (holometabolous)',
     incomplete: 'Incomplete metamorphosis (hemimetabolous)',
+  },
+  uz: {
+    complete: "To'liq metamorfoz (holometaboliya)",
+    incomplete: "To'liqsiz metamorfoz (gemimetaboliya)",
   },
 }

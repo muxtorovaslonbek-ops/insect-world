@@ -1,5 +1,5 @@
 /** 站点支持的语言。新增语言时这里加一个，字典与数据文件跟着加。 */
-export type Locale = 'zh' | 'en'
+export type Locale = 'zh' | 'en' | 'uz'
 
 /**
  * 分类目的中立键（拉丁目名小写）。

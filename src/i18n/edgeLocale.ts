@@ -61,6 +61,11 @@ export function isChineseTag(tag: string): boolean {
   return tag.split('-')[0]?.toLowerCase() === 'zh'
 }
 
+/** 主子标签是不是 uz（乌兹别克语）—— 判定方式同 isChineseTag。 */
+export function isUzbekTag(tag: string): boolean {
+  return tag.split('-')[0]?.toLowerCase() === 'uz'
+}
+
 /**
  * Accept-Language 是否"确凿地"没有中文偏好。
  *
@@ -78,6 +83,19 @@ export function acceptLanguageExcludesChinese(header: string | null | undefined)
   const acceptable = parseAcceptLanguage(header).filter((t) => t.q > 0)
   if (acceptable.length === 0) return false
   return !acceptable.some((t) => isChineseTag(t.tag))
+}
+
+/**
+ * Accept-Language 里是否带着 q>0 的乌兹别克语标签。
+ *
+ * 与 acceptLanguageExcludesChinese 不同，这里不是"确凿排除"判定，而是
+ * "确凿命中"判定——乌兹别克语访客占比小，误判成本不对称：错过一个 uz
+ * 标签只是让他留在中文/英文默认页（不算坏体验），而误伤则会把明明写
+ * "uz-Cyrl;q=0" 这种"明确不要"的访客送去 uz 版。q=0 同样不计入命中。
+ */
+export function acceptLanguagePrefersUzbek(header: string | null | undefined): boolean {
+  const acceptable = parseAcceptLanguage(header).filter((t) => t.q > 0)
+  return acceptable.some((t) => isUzbekTag(t.tag))
 }
 
 /**
@@ -150,12 +168,12 @@ export function readLocaleCookie(cookieHeader: string | null | undefined): Local
     const name = seg.slice(0, eq).trim()
     if (name !== LOCALE_COOKIE_NAME) continue
     const value = seg.slice(eq + 1).trim()
-    return value === 'zh' || value === 'en' ? value : null
+    return value === 'zh' || value === 'en' || value === 'uz' ? value : null
   }
   return null
 }
 
-export type LocaleRedirectDecision = 'redirect-en' | 'stay'
+export type LocaleRedirectDecision = 'redirect-en' | 'redirect-uz' | 'stay'
 
 export interface LocaleRedirectInput {
   acceptLanguage: string | null | undefined
@@ -183,7 +201,12 @@ export function decideLocaleRedirect(input: LocaleRedirectInput): LocaleRedirect
 
   const cookieLocale = readLocaleCookie(input.cookie)
   if (cookieLocale === 'en') return 'redirect-en'
+  if (cookieLocale === 'uz') return 'redirect-uz'
   if (cookieLocale === 'zh') return 'stay'
+
+  // uz 判定放在 en 前面：uz 是"确凿命中"（宁可漏、不可错），
+  // 不会跟 acceptLanguageExcludesChinese 的"确凿排除"判定打架。
+  if (acceptLanguagePrefersUzbek(input.acceptLanguage)) return 'redirect-uz'
 
   return acceptLanguageExcludesChinese(input.acceptLanguage) ? 'redirect-en' : 'stay'
 }

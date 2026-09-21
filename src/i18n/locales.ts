@@ -10,4 +10,4 @@ import type { Locale } from './types'
  *
  * 也因此它不能待在 src/components/ 里 —— 那里禁止出现中文字面量。
  */
-export const LOCALE_AUTONYM: Record<Locale, string> = { zh: '中', en: 'EN' }
+export const LOCALE_AUTONYM: Record<Locale, string> = { zh: '中', en: 'EN', uz: 'UZ' }

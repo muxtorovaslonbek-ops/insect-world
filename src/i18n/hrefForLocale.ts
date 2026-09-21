@@ -9,7 +9,7 @@ import type { Locale } from './types'
  * 免得线上多一次 301。
  */
 export function canonicalPath(locale: Locale, speciesId: string): string {
-  const base = locale === 'en' ? '/en' : ''
+  const base = locale === 'zh' ? '' : `/${locale}`
   return `${base}/s/${encodeURIComponent(speciesId)}/`
 }
 
@@ -57,7 +57,7 @@ export function speciesFromUrl(
   search: string,
   knownIds: readonly string[],
 ): string | null {
-  const m = pathname.match(/^\/(?:en\/)?s\/([^/]+)\/?$/)
+  const m = pathname.match(/^\/(?:(?:en|uz)\/)?s\/([^/]+)\/?$/)
   if (m) {
     const id = tryDecode(m[1])
     if (id && knownIds.includes(id)) return id
