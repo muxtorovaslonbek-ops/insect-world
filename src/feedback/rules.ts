@@ -34,7 +34,7 @@ export const SLUG_MAX = 64
 export const DAILY_SUBMISSION_LIMIT = 5
 
 const KINDS: readonly FeedbackKind[] = ['correction', 'wish', 'note']
-const LOCALES: readonly Locale[] = ['zh', 'en']
+const LOCALES: readonly Locale[] = ['zh', 'en', 'uz']
 
 /**
  * 码点长度。
@@ -202,8 +202,12 @@ export function sortWishes(rows: readonly WishRow[]): WishRow[] {
   return [...rows].sort((a, b) => b.votes - a.votes || a.created_at - b.created_at)
 }
 
-/** 按语言挑标题，落成墙上的候选项。缺译文时回落到中文，不显示空标题。 */
+/**
+ * 按语言挑标题，落成墙上的候选项。缺译文时回落到中文，不显示空标题。
+ * 数据库暂无 title_uz 列（后续如需要再加迁移），乌兹别克语页面先借用
+ * 英文标题——比回落到中文对读者更友好。
+ */
 export function toWallWish(row: WishRow, locale: Locale): WallWish {
-  const title = (locale === 'en' ? row.title_en : row.title_zh) || row.title_zh
+  const title = (locale === 'zh' ? row.title_zh : row.title_en) || row.title_zh
   return { id: row.id, kind: row.kind, title, votes: row.votes }
 }

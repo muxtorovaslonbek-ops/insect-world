@@ -91,7 +91,9 @@ export function clientIp(request: Request): string {
 
 /** 查询串里的语言。认不出一律中文，跟 `validateSubmission` 的处理保持一致。 */
 export function localeFromQuery(raw: string | null): Locale {
-  return raw === 'en' ? 'en' : 'zh'
+  if (raw === 'en') return 'en'
+  if (raw === 'uz') return 'uz'
+  return 'zh'
 }
 
 /**
