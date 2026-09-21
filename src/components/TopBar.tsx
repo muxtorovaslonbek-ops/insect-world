@@ -168,6 +168,13 @@ export function TopBar({
   return (
     <header className={s.bar}>
       <div className={s.brand}>
+        <img
+          className={s.eduLogo}
+          src="/edusat-academy-logo.svg"
+          alt="EduSAT Academy"
+          width={40}
+          height={40}
+        />
         <span className={s.wordmark}>{t('brand.name')}</span>
         <IconSparkle size={13} className={s.spark} />
         <span className={s.tagline}>{t('brand.tagline')}</span>
@@ -241,14 +248,14 @@ export function TopBar({
           复制链接地址都得能用 —— 这是个跨页面跳转，不是页内状态切换。
         */}
         <div className={s.langToggle}>
-          {(['zh', 'en'] as const).map((code) => (
+          {(['zh', 'en', 'uz'] as const).map((code) => (
             <a
               key={code}
               className={s.langItem}
               data-active={locale === code}
               href={locale === code ? undefined : hrefForLocale(code, activeId)}
               aria-current={locale === code ? 'true' : undefined}
-              lang={code === 'zh' ? 'zh-Hans' : 'en'}
+              lang={code === 'zh' ? 'zh-Hans' : code === 'uz' ? 'uz' : 'en'}
               onClick={() => {
                 // 当前语言那个 <a> 没有 href，点了也不会跳转，不该记一次「切换」
                 if (locale === code) return

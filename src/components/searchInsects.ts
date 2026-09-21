@@ -123,7 +123,12 @@ export function tierOf(
    * 白拿的：中文页搜 `ladybug`、`grasshopper` 这类只写在英文表里的叫法，
    * 以及英文页搜「独角仙」，都能接住。
    */
-  if (matchesAlias(locale === 'zh' ? 'en' : 'zh', insect.id, q)) return 'meta'
+  /**
+   * 另外两种语言的俗名也各查一遍（低一级）——三语站扩容后，uz 页仍然吃得到
+   * 中英两张已有俗名表；zh/en 页互查对方那一份，跟原逻辑一致。
+   */
+  const otherLocales: Locale[] = (['zh', 'en', 'uz'] as const).filter((l) => l !== locale)
+  if (otherLocales.some((l) => matchesAlias(l, insect.id, q))) return 'meta'
 
   const text = lower(insect)
   if (text.latin.includes(q)) return 'meta'
