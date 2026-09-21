@@ -62,4 +62,34 @@ export const PART = definePart(
     'cards.habitat.subject': 'Where {order} live',
     'cards.habitat.foot': 'See other members of this order',
   },
+  {
+    'cards.quote.line1': "Qancha ko'p qarasang,",
+    'cards.quote.line2': "shuncha ko'p ko'rasan.",
+    'cards.quote.cta': 'Kuzatishni davom ettirish →',
+
+    'cards.micro.kicker': 'Mikroskop nuqtai nazari',
+    'cards.micro.subject': "Murakkab ko'zning fasetkalari",
+    'cards.micro.foot': "Tuzilishni kattalashtirib ko'rish",
+
+    'cards.size.kicker': "O'lcham taqqoslash",
+    'cards.size.subject': "U hasharotlar ichida qanchalik katta",
+    'cards.size.empty': "Tana uzunligi ma'lumotlari kutilmoqda",
+    'cards.size.foot': "Taqqoslash ko'rinishini ochish",
+
+    'cards.lifecycle.kicker': 'Hayot davri',
+    'cards.lifecycle.foot': "Rivojlanish animatsiyasini ko'rsatish",
+
+    'cards.notes.kicker': 'Dala qaydlari',
+    'cards.notes.subject': "Nimaga e'tibor berish kerak",
+    'cards.notes.foot': "Barcha qaydlarni ko'rish",
+
+    'cards.note.metamorphosis': '{type}, umri davomida {n} bosqichdan o\'tadi',
+    'cards.note.watch': "{part}ga e'tibor bering: {note}",
+    'cards.note.range': '{range}da uchraydi',
+    'cards.note.idKey': "{part} — asosiy aniqlash belgisi",
+
+    'cards.habitat.kicker': "U qayerda yashaydi",
+    'cards.habitat.subject': '{order} turkumining yashash muhiti',
+    'cards.habitat.foot': "Shu turkumning boshqa vakillarini ko'rish",
+  },
 )

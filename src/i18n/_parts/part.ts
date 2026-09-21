@@ -11,6 +11,7 @@
 export function definePart<Z extends Record<string, string>>(
   zh: Z,
   en: Record<keyof Z, string>,
-): { zh: Z; en: Record<keyof Z, string> } {
-  return { zh, en }
+  uz: Record<keyof Z, string>,
+): { zh: Z; en: Record<keyof Z, string>; uz: Record<keyof Z, string> } {
+  return { zh, en, uz }
 }

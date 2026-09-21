@@ -88,4 +88,42 @@ export const PART = definePart(
     'gallery.title': 'All {n} species',
     'gallery.subtitle': 'Sorted by order · {n} orders total',
   },
+  {
+    'discovery.kicker': 'Birga kuzatish',
+    'discovery.disclaimer':
+      "Tushuntirish sun'iy intellekt tomonidan yozilgan va tarjima qilingan — entomologik adabiyot bilan tekshirilmagan. Tuzilishni tanib olish uchun yaxshi, lekin manba sifatida keltirilmasin",
+    'discovery.noContent': "Bu tur uchun tushuntirish hali tayyorlanmoqda.",
+    'discovery.stepOf': '{cur} / {total}-qadam · {name}',
+    'discovery.anchorHint': '◎ Kamera «{label}»ga yo\'naltirildi',
+    'discovery.back': 'Orqaga',
+    'discovery.next': 'Keyingisi',
+    'discovery.done': 'Tugallandi',
+    'discovery.toQuiz': "Kichik test topshirish",
+    'discovery.inlineQuiz': "Bitta savol",
+    'discovery.moreQuiz': "Yana bir nechta savol",
+    'discovery.lifecycle.title': "{name}ning hayoti",
+    'discovery.lifecycle.stepOf': '{cur} / {total}-bosqich · {type}',
+    'discovery.lifecycle.onStage': "◎ Stend endi shu bosqichning uch o'lchamli namunasiga almashtirildi",
+    'discovery.lifecycle.noModel': "Bu bosqich uchun hali 3D namuna yo'q, stendda voyaga yetgan shakli qoladi",
+    'discovery.stage.egg': 'Tuxum',
+    'discovery.stage.larva': 'Lichinka',
+    'discovery.stage.pupa': "G'umbak",
+    'discovery.stage.nymph': 'Nimfa',
+    'discovery.stage.adult': "Voyaga yetgan",
+    'discovery.lifecycle.holoNote':
+      "To'liq metamorfoz: lichinka voyaga yetgan shakliga umuman o'xshamaydi, ular orasida harakatsiz g'umbaklik bosqichi bo'ladi.",
+    'discovery.lifecycle.hemiNote':
+      "To'liqsiz metamorfoz: nimfa voyaga yetganning kichraytirilgan nusxasi bo'lib, qanotlari hali «kurtak» bosqichida qoladi. U bir necha marta po'st tashlab kattalashadi, g'umbaklik bosqichi bo'lmaydi.",
+
+    'quiz.title': '{name} bo\'yicha test',
+    'quiz.noContent': "Bu tur uchun savollar hali yozilmoqda.",
+    'quiz.stepOf': '{cur} / {total}-savol',
+    'quiz.score': '{score} / {total} to\'g\'ri',
+    'quiz.back': 'Orqaga',
+    'quiz.next': 'Keyingisi',
+    'quiz.finish': 'Yakunlash',
+
+    'gallery.title': 'Barcha {n} ta tur',
+    'gallery.subtitle': "Turkumlar bo'yicha tartiblangan · jami {n} ta turkum",
+  },
 )

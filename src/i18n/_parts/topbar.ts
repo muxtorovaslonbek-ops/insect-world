@@ -68,4 +68,37 @@ export const PART = definePart(
     'library.allCount': 'All {n} species',
     'rail.surprise': 'Surprise me',
   },
+  {
+    'nav.explore': "Kashfiyot",
+    'nav.orders': 'Turkumlar',
+    'nav.lessons': "Darslar",
+    'nav.library': "Kutubxona",
+    'nav.notes': 'Qaydlar',
+
+    'brand.tagline': "Tabiatshunosdek kuzating",
+
+    'orders.all': 'Barchasi',
+
+    'theme.toLight': "Yorug' mavzuga o'tish",
+    'theme.toDark': "Qorong'i mavzuga o'tish",
+    'theme.light': "Yorug' · Qog'ozsimon jild",
+    'theme.dark': "Qorong'i · Muzey kechasi",
+
+    'search.placeholder': "Hasharot, turkum, belgi qidiring…",
+    'search.noResults': '«{query}» bo\'yicha hech narsa topilmadi',
+    'search.miss.notInsect': "{name} hasharot emas — hasharotlarning olti oyog'i va bosh, ko'krak, qorin qismlaridan iborat tanasi bo'ladi. Bu jild faqat hasharotlarni o'z ichiga oladi.",
+    'search.miss.absentInsect': "{name} hasharot, lekin u hali jildga qo'shilmagan.",
+    'search.suggest': "Baribir birontasini ko'rsat",
+
+    'account.observationLog': 'Kuzatuv jurnali',
+
+    'notes.recorded': '{n} ta tur qayd etildi',
+    'notes.empty': "Hali kuzatuv qaydlari yo'q",
+    'notes.open': 'Qaydlarni ochish',
+    'notes.copyMarkdown': "Markdown sifatida nusxalash",
+    'notes.clear': 'Qaydlarni tozalash',
+
+    'library.allCount': 'Barcha {n} ta tur',
+    'rail.surprise': "Boshqasini ko'rsat",
+  },
 )

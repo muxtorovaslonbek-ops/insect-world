@@ -21,4 +21,10 @@ export const PART = definePart(
     'common.close': 'Close',
     'common.backToSpecimen': 'Back to the specimen',
   },
+  {
+    'brand.name': 'Hasharotlar Olami',
+    'doc.title': '{name} — Hasharotlar Olami',
+    'common.close': 'Yopish',
+    'common.backToSpecimen': "Namunaga qaytish",
+  },
 )
