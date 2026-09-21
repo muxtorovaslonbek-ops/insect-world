@@ -66,13 +66,13 @@ export const onRequestGet = async ({ request, next }: PagesFunctionContext): Pro
     cookie: request.headers.get('Cookie'),
   })
 
-  if (decision === 'redirect-en') {
+  if (decision === 'redirect-en' || decision === 'redirect-uz') {
     // 302 不是 301：语言偏好这东西会变（换浏览器、加拿大用户想看中文版…），
     // 用永久重定向会被浏览器/中间代理缓存死，之后改判定也救不回来。
     return new Response(null, {
       status: 302,
       headers: {
-        Location: '/en/',
+        Location: decision === 'redirect-en' ? '/en/' : '/uz/',
         // 响应内容随 Accept-Language 变化，必须声明 Vary，否则 CDN /
         // 中间代理可能把某一种语言的响应缓存下来发给所有人。
         Vary: 'Accept-Language',
