@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 72" role="img" aria-labelledby="edusatTitle">
+  <title id="edusatTitle">EduSAT Academy</title>
+  <!-- Mark: an orbiting ring around a graduation cap — "Edu" (learning) + "SAT" (satellite / orbit) -->
+  <g transform="translate(6,6)">
+    <circle cx="30" cy="30" r="27" fill="#faf3e7" stroke="#e2734f" stroke-width="2"/>
+    <ellipse cx="30" cy="30" rx="26" ry="10" fill="none" stroke="#7a8a6a" stroke-width="2" transform="rotate(-18 30 30)"/>
+    <circle cx="52" cy="18" r="3.4" fill="#e2734f" transform="rotate(-18 30 30)"/>
+    <path d="M30 16 L50 24 L30 32 L10 24 Z" fill="#3b3229"/>
+    <path d="M30 32 L30 40" stroke="#3b3229" stroke-width="2" stroke-linecap="round"/>
+    <path d="M18 27.5 V35 c0 3.5 5.5 6.5 12 6.5 s12 -3 12 -6.5 v-7.5" fill="none" stroke="#3b3229" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <text x="76" y="34" font-family="Georgia, 'Playfair Display', serif" font-size="26" font-weight="600" fill="#3b3229">EduSAT</text>
+  <text x="76" y="56" font-family="Georgia, 'Playfair Display', serif" font-size="17" font-style="italic" fill="#7a8a6a" letter-spacing="0.02em">Academy</text>
+</svg>
