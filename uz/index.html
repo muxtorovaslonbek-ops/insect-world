@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hasharotlar Olami — interaktiv 3D hasharotlar qo'llanmasi</title>
+    <meta name="description" content="Hasharotlarning interaktiv 3D qo'llanmasi: aylantiring, kattalashtiring va belgi nuqtalarini bosib, har bir turning tuzilishi va hayot davrini o'rganing." />
+    <meta name="theme-color" content="#faf3e7" />
+    <!-- 主题引导：首帧前设 data-theme（默认浅色），同步加载防闪变；
+         CSP 无内联脚本，故为同源小文件 -->
+    <script src="/theme-boot.js"></script>
+    <link rel="canonical" href="https://insect-world.pages.dev/uz/" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://insect-world.pages.dev/" />
+    <link rel="alternate" hreflang="en" href="https://insect-world.pages.dev/en/" />
+    <link rel="alternate" hreflang="uz" href="https://insect-world.pages.dev/uz/" />
+    <link rel="alternate" hreflang="x-default" href="https://insect-world.pages.dev/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- 分享卡片：微信/QQ/Twitter 抓的都是这几行；og:image 必须是绝对地址 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Hasharotlar Olami — 3D hasharotlar qo'llanmasi" />
+    <meta property="og:description" content="63 turdagi hasharotning interaktiv 3D namunalari: aylantiring, kesib ko'ring, belgi nuqtalarini bosib tuzilishi va hayot davrini o'rganing." />
+    <meta property="og:url" content="https://insect-world.pages.dev/uz/" />
+    <meta property="og:image" content="https://insect-world.pages.dev/og-en.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      字体样式表必须异步加载（media="print" 先旁路渲染，onload 再切回 all）。
+
+      原先是普通的 <link rel="stylesheet">，属于渲染阻塞资源 —— 而
+      fonts.googleapis.com 在中国大陆无法访问，访客的浏览器会卡在这一行
+      等到超时才肯画第一屏，白屏可达几十秒。字体是锦上添花，
+      global.css 里每个字体族都排了系统字体兜底，拿不到就用兜底，
+      不能让它挡住整个站。
+    -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.uz.tsx"></script>
+    <!--
+      Umami 统计（自托管于 analytics.fojin.app，无 cookie）。
+      放在 body 末尾而不是 head：defer 脚本按文档顺序排队执行，排在应用
+      模块前面的话，统计域名一旦失联（大陆访客完全可能），应用要等它超时
+      才启动 —— 和上面字体注释里是同一类教训。放在应用入口之后，最坏也
+      只是统计丢失，页面照常。
+      站点已在 Umami 后台创建（insect-world / insect-world.pages.dev）。
+    -->
+    <script
+      defer
+      src="https://analytics.fojin.app/script.js"
+      data-website-id="9d5062c4-6c2d-40c7-bab1-112ad6ba431d"
+    ></script>
+  </body>
+</html>
