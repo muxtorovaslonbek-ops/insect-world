@@ -28,6 +28,7 @@ const SITE = 'https://insect-world.pages.dev'
 
 const { INSECTS: ZH } = await import('../src/data/insects.zh.ts')
 const { INSECTS: EN } = await import('../src/data/insects.en.ts')
+const { INSECTS: UZ } = await import('../src/data/insects.uz.ts')
 const { ORDER_LABEL } = await import('../src/i18n/orders.ts')
 const { licenseUrl, licenseLabel } = await import('../src/data/photoPolicy.ts')
 /**
@@ -45,7 +46,7 @@ const PHOTOS = (() => {
   return existsSync(f) ? JSON.parse(readFileSync(f, 'utf8')) : {}
 })()
 
-const LISTS = { zh: ZH, en: EN }
+const LISTS = { zh: ZH, en: EN, uz: UZ }
 
 // ---------- 小工具 ----------
 
@@ -101,12 +102,14 @@ function clampAtSentence(text, limit) {
 // ---------- 数据校验 ----------
 
 assert(ZH.length > 0 && ZH.length === EN.length, `中英物种数不一致（zh ${ZH.length} / en ${EN.length}）`)
+assert(ZH.length === UZ.length, `中乌物种数不一致（zh ${ZH.length} / uz ${UZ.length}）`)
 for (let i = 0; i < ZH.length; i++) {
-  const [z, e] = [ZH[i], EN[i]]
+  const [z, e, u] = [ZH[i], EN[i], UZ[i]]
   assert(z.id === e.id, `第 ${i} 位中英 id 不对应（${z.id} / ${e.id}）——壳页会把两种虫互挂 hreflang`)
+  assert(z.id === u.id, `第 ${i} 位中乌 id 不对应（${z.id} / ${u.id}）——壳页会把两种虫互挂 hreflang`)
   assert(/^[a-z0-9-]+$/.test(z.id), `id「${z.id}」含 URL 不安全字符`)
-  assert(z.name && e.name, `${z.id} 缺 name`)
-  assert(z.summary && e.summary, `${z.id} 缺 summary`)
+  assert(z.name && e.name && u.name, `${z.id} 缺 name`)
+  assert(z.summary && e.summary && u.summary, `${z.id} 缺 summary`)
 }
 
 // ---------- 读模板 ----------
@@ -114,6 +117,7 @@ for (let i = 0; i < ZH.length; i++) {
 const templates = {
   zh: { file: path.join(DIST, 'index.html'), suffix: '昆虫世界' },
   en: { file: path.join(DIST, 'en/index.html'), suffix: 'Insect World' },
+  uz: { file: path.join(DIST, 'uz/index.html'), suffix: 'Hasharotlar Olami' },
 }
 for (const t of Object.values(templates)) {
   assert(existsSync(t.file), `${t.file} 不存在 —— 该脚本必须在 vite build 之后跑（postbuild）`)
@@ -124,7 +128,7 @@ for (const t of Object.values(templates)) {
 
 // ---------- 生成壳页 ----------
 
-/** og:image：有逐物种分享卡就用它（中英共用一套），没有回落到全站卡 */
+/** og:image：有逐物种分享卡就用它（三语共用一套），没有回落到全站卡；乌语暂借英文卡 */
 function ogImageFor(id, locale) {
   if (existsSync(path.join(ROOT, 'public/og/species', `${id}.png`)))
     return `${SITE}/og/species/${id}.png`
@@ -148,9 +152,9 @@ function jsonLdScript(data) {
   return `<script type="application/ld+json">${JSON.stringify(data).replaceAll('<', '\\u003c')}</script>`
 }
 
-const LANG = { zh: 'zh-Hans', en: 'en' }
-const SITE_NAME = { zh: '昆虫世界', en: 'Insect World' }
-const homeOf = (locale) => (locale === 'zh' ? `${SITE}/` : `${SITE}/en/`)
+const LANG = { zh: 'zh-Hans', en: 'en', uz: 'uz' }
+const SITE_NAME = { zh: '昆虫世界', en: 'Insect World', uz: 'Hasharotlar Olami' }
+const homeOf = (locale) => (locale === 'zh' ? `${SITE}/` : `${SITE}/${locale}/`)
 
 function websiteNode(locale) {
   return {
@@ -319,6 +323,7 @@ function assertJsonLd(html, pageLabel) {
 const PANEL = {
   zh: { facts: '关键数据', ecology: '生态角色', trivia: '你知道吗', life: '生活史', range: '分布', status: '状态', more: '打开可交互的 3D 标本' },
   en: { facts: 'Key figures', ecology: 'Ecological role', trivia: 'Did you know', life: 'Life cycle', range: 'Range', status: 'Status', more: 'Open the interactive 3D specimen' },
+  uz: { facts: "Asosiy ma'lumotlar", ecology: 'Ekologik roli', trivia: 'Bilasizmi', life: 'Hayot davri', range: 'Tarqalishi', status: 'Holati', more: "Interaktiv 3D namunani ochish" },
 }
 
 const S = {
@@ -368,8 +373,10 @@ function staticPhoto(locale, insect) {
   const alt =
     locale === 'zh'
       ? `${insect.name}（${insect.latin}）的实拍照片`
-      : `Photograph of ${insect.name} (${insect.latin})`
-  const by = locale === 'zh' ? '摄影' : 'Photo by'
+      : locale === 'uz'
+        ? `${insect.name} (${insect.latin})ning haqiqiy fotosurati`
+        : `Photograph of ${insect.name} (${insect.latin})`
+  const by = locale === 'zh' ? '摄影' : locale === 'uz' ? 'Muallif' : 'Photo by'
   const lic = licenseUrl(p.license)
   const licHtml = lic
     ? `<a href="${esc(lic)}" rel="license noopener" target="_blank">${esc(licenseLabel(p.license))}</a>`
@@ -383,6 +390,9 @@ function staticPhoto(locale, insect) {
     `</figure>`
   )
 }
+
+const ANATOMY_HEADING = { zh: '身体构造', en: 'Anatomy', uz: "A'zolar tuzilishi" }
+const ANATOMY_SEP = { zh: '：', en: ' — ', uz: ' — ' }
 
 /** 生成一页的静态正文。内容与应用里显示的是同一份数据。 */
 function staticBody(locale, insect) {
@@ -410,7 +420,7 @@ function staticBody(locale, insect) {
     `<h2 style="${S.h2}">${esc(L.status)}</h2>`,
     `<p style="${S.p}">${esc(insect.status)}</p>`,
     insect.hotspots?.length
-      ? `<h2 style="${S.h2}">${locale === 'zh' ? '身体构造' : 'Anatomy'}</h2><ul style="${S.ul}">${insect.hotspots.map((h) => li(`${h.label}${locale === 'zh' ? '：' : ' — '}${h.note}`)).join('')}</ul>`
+      ? `<h2 style="${S.h2}">${ANATOMY_HEADING[locale]}</h2><ul style="${S.ul}">${insect.hotspots.map((h) => li(`${h.label}${ANATOMY_SEP[locale]}${h.note}`)).join('')}</ul>`
       : '',
     `<p style="${S.h2};margin-top:2rem">${esc(L.more)}</p>`,
     siblingNav(locale, insect),
@@ -440,8 +450,8 @@ function staticBody(locale, insect) {
  * 能点的名录 —— 移动端冷缓存下那两秒不再是纯等待。
  */
 
-/** 站内物种页地址。英文站整站挂在 /en/ 下，链接必须跟着换前缀，否则跨语言互链 */
-const href = (locale, id) => (locale === 'zh' ? `/s/${id}/` : `/en/s/${id}/`)
+/** 站内物种页地址。英文/乌语站整站分别挂在 /en/、/uz/ 下，链接必须跟着换前缀，否则跨语言互链 */
+const href = (locale, id) => (locale === 'zh' ? `/s/${id}/` : `/${locale}/s/${id}/`)
 
 /**
  * 每页最多列几只同目的。鞘翅目有 28 只，全列会让 28 张甲虫页各背上一大段
@@ -466,6 +476,14 @@ const NAV = {
     home: (n) => `Back to all ${n} insects`,
     sep: ' · ',
   },
+  uz: {
+    h1: 'Hasharotlar Olami',
+    intro: (n) =>
+      `${n} ta hasharotning interaktiv 3D namunalar to'plami. Ularning hech biri skanerlangan emas — har biri haqiqiy morfologiyasiga asoslanib, kod orqali bosqichma-bosqich yaratilgan: aylantiring, belgilangan qismlarni bosing, qanot qoqishi va shaklini o'zgartirishini tomosha qiling. To'liq ro'yxat quyida.`,
+    same: (order) => `${order}ning boshqa vakillari`,
+    home: (n) => `Barcha ${n} ta hasharotga qaytish`,
+    sep: ' · ',
+  },
 }
 
 /** 壳页底部：同目的其他物种 + 回首页 */
@@ -482,7 +500,7 @@ function siblingNav(locale, insect) {
     : ''
   return (
     `<nav style="${S.nav}">${same}` +
-    `<p style="${S.p};margin-top:1rem"><a href="${locale === 'zh' ? '/' : '/en/'}" style="${S.a}">${esc(L.home(list.length))}</a></p>` +
+    `<p style="${S.p};margin-top:1rem"><a href="${locale === 'zh' ? '/' : `/${locale}/`}" style="${S.a}">${esc(L.home(list.length))}</a></p>` +
     `</nav>`
   )
 }
@@ -518,14 +536,15 @@ function staticIndex(locale) {
 
 /** 统计一段 HTML 里指向站内物种页的链接数（head 里的 canonical/hreflang 是绝对地址，不会被算进来） */
 function countSpeciesLinks(html) {
-  return (html.match(/href="\/(?:en\/)?s\/[a-z0-9-]+\/"/g) ?? []).length
+  return (html.match(/href="\/(?:en\/|uz\/)?s\/[a-z0-9-]+\/"/g) ?? []).length
 }
 
 function buildPage(locale, insect) {
   const t = templates[locale]
   const zhUrl = `${SITE}/s/${insect.id}/`
   const enUrl = `${SITE}/en/s/${insect.id}/`
-  const self = locale === 'zh' ? zhUrl : enUrl
+  const uzUrl = `${SITE}/uz/s/${insect.id}/`
+  const self = { zh: zhUrl, en: enUrl, uz: uzUrl }[locale]
   const title = `${insect.name} — ${t.suffix}`
   const desc = clampAtSentence(insect.summary, locale === 'zh' ? 140 : 200)
 
@@ -554,6 +573,12 @@ function buildPage(locale, insect) {
     /<link rel="alternate" hreflang="en" href="[^"]*"\s*\/>/,
     `<link rel="alternate" hreflang="en" href="${enUrl}" />`,
     'hreflang en',
+  )
+  html = replaceOnce(
+    html,
+    /<link rel="alternate" hreflang="uz" href="[^"]*"\s*\/>/,
+    `<link rel="alternate" hreflang="uz" href="${uzUrl}" />`,
+    'hreflang uz',
   )
   html = replaceOnce(
     html,
@@ -666,8 +691,7 @@ function buildPage(locale, insect) {
     `${insect.id} 的壳页没有回首页的链接 —— 爬虫进来了就出不去`,
   )
 
-  const dir =
-    locale === 'zh' ? path.join(DIST, 's', insect.id) : path.join(DIST, 'en/s', insect.id)
+  const dir = { zh: path.join(DIST, 's', insect.id), en: path.join(DIST, 'en/s', insect.id), uz: path.join(DIST, 'uz/s', insect.id) }[locale]
   mkdirSync(dir, { recursive: true })
   writeFileSync(path.join(dir, 'index.html'), html)
   return { title, canonical: self }
@@ -676,11 +700,12 @@ function buildPage(locale, insect) {
 const pages = []
 for (const insect of ZH) pages.push(buildPage('zh', insect))
 for (const insect of EN) pages.push(buildPage('en', insect))
+for (const insect of UZ) pages.push(buildPage('uz', insect))
 
 // 全数生成 + title/canonical 全站唯一（重复意味着两页在搜索引擎眼里还是一页）
-assert(pages.length === ZH.length * 2, `应生成 ${ZH.length * 2} 页，实际 ${pages.length}`)
+assert(pages.length === ZH.length * 3, `应生成 ${ZH.length * 3} 页，实际 ${pages.length}`)
 assert(new Set(pages.map((p) => p.title)).size === pages.length, 'title 有重复')
-const rootCanonicals = [`${SITE}/`, `${SITE}/en/`]
+const rootCanonicals = [`${SITE}/`, `${SITE}/en/`, `${SITE}/uz/`]
 const canonicals = pages.map((p) => p.canonical).concat(rootCanonicals)
 assert(new Set(canonicals).size === canonicals.length, 'canonical 有重复（或撞上根页面）')
 
@@ -765,30 +790,34 @@ const GENERATOR = 'scripts/make-species-pages.mjs'
 const LASTMOD = {
   zh: lastmodFor(['src/data/insects.zh.ts', GENERATOR]),
   en: lastmodFor(['src/data/insects.en.ts', GENERATOR]),
+  uz: lastmodFor(['src/data/insects.uz.ts', GENERATOR]),
 }
-/** 根页两版内容都涉及，取较晚的 */
-const LASTMOD_ROOT = [LASTMOD.zh, LASTMOD.en].filter(Boolean).sort().pop() ?? null
+/** 根页三版内容都涉及，取最晚的 */
+const LASTMOD_ROOT = [LASTMOD.zh, LASTMOD.en, LASTMOD.uz].filter(Boolean).sort().pop() ?? null
 
-/** 一个 <url> 条目；物种页带 hreflang 交替引用，根页对同样适用 */
-function urlEntry(loc, zhHref, enHref, lastmod) {
+/** 一个 <url> 条目；物种页带三语 hreflang 交替引用，根页对同样适用 */
+function urlEntry(loc, zhHref, enHref, uzHref, lastmod) {
   return [
     '  <url>',
     `    <loc>${loc}</loc>`,
     ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
     `    <xhtml:link rel="alternate" hreflang="zh-Hans" href="${zhHref}"/>`,
     `    <xhtml:link rel="alternate" hreflang="en" href="${enHref}"/>`,
+    `    <xhtml:link rel="alternate" hreflang="uz" href="${uzHref}"/>`,
     `    <xhtml:link rel="alternate" hreflang="x-default" href="${zhHref}"/>`,
     '  </url>',
   ].join('\n')
 }
 
 const entries = [
-  urlEntry(`${SITE}/`, `${SITE}/`, `${SITE}/en/`, LASTMOD_ROOT),
-  urlEntry(`${SITE}/en/`, `${SITE}/`, `${SITE}/en/`, LASTMOD_ROOT),
+  urlEntry(`${SITE}/`, `${SITE}/`, `${SITE}/en/`, `${SITE}/uz/`, LASTMOD_ROOT),
+  urlEntry(`${SITE}/en/`, `${SITE}/`, `${SITE}/en/`, `${SITE}/uz/`, LASTMOD_ROOT),
+  urlEntry(`${SITE}/uz/`, `${SITE}/`, `${SITE}/en/`, `${SITE}/uz/`, LASTMOD_ROOT),
 ]
 for (const { id } of ZH) {
-  entries.push(urlEntry(`${SITE}/s/${id}/`, `${SITE}/s/${id}/`, `${SITE}/en/s/${id}/`, LASTMOD.zh))
-  entries.push(urlEntry(`${SITE}/en/s/${id}/`, `${SITE}/s/${id}/`, `${SITE}/en/s/${id}/`, LASTMOD.en))
+  entries.push(urlEntry(`${SITE}/s/${id}/`, `${SITE}/s/${id}/`, `${SITE}/en/s/${id}/`, `${SITE}/uz/s/${id}/`, LASTMOD.zh))
+  entries.push(urlEntry(`${SITE}/en/s/${id}/`, `${SITE}/s/${id}/`, `${SITE}/en/s/${id}/`, `${SITE}/uz/s/${id}/`, LASTMOD.en))
+  entries.push(urlEntry(`${SITE}/uz/s/${id}/`, `${SITE}/s/${id}/`, `${SITE}/en/s/${id}/`, `${SITE}/uz/s/${id}/`, LASTMOD.uz))
 }
 const sitemap = [
   '<?xml version="1.0" encoding="UTF-8"?>',
@@ -804,6 +833,6 @@ const speciesOg = ZH.filter(({ id }) =>
   existsSync(path.join(ROOT, 'public/og/species', `${id}.png`)),
 ).length
 console.log(
-  `✓ 物种壳页 ${pages.length} 页（${ZH.length} 种 × 中英）+ 首页名录 2 页 + sitemap.xml ${entries.length} 条；` +
+  `✓ 物种壳页 ${pages.length} 页（${ZH.length} 种 × 中英乌）+ 首页名录 3 页 + sitemap.xml ${entries.length} 条；` +
     `逐物种 og 图 ${speciesOg}/${ZH.length}${speciesOg < ZH.length ? '（缺的回落全站卡）' : ''}`,
 )
