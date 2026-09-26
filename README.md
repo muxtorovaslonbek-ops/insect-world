@@ -1,89 +1,38 @@
-# O'zbek tili qo'shilishi — faqat o'zgargan/yangi fayllar
+# Barcha 63 tur to'liq o'zbekchaga tarjima qilindi
 
-Bu papkada **faqat** asl `insect-world` loyihasida o'zgartirilgan yoki yangi
-qo'shilgan fayllar bor, xuddi shu yo'l (path) tuzilishi bilan. Loyihangizning
-GitHub repo'siga shu papka ichidagi fayllarni **xuddi shu joylarga** ko'chirib
-qo'ysangiz, boshqa hech narsaga tegmasdan commit qilib yuborishingiz mumkin.
+Bu papkada faqat 2 ta fayl bor — ikkalasi ham to'liq qayta yozilgan:
+
+- `src/data/insects.uz.ts` — barcha 63 turning nomi, tavsifi, faktlari,
+  "hotspot" izohlari, ekologiyasi, qiziqarli ma'lumoti va hayot davri
+  to'liq o'zbekcha.
+- `src/data/guides.uz.ts` — barcha 63 tur uchun darslar (lesson),
+  harakat namoyishi (motion), viktorina (quiz) va yashash muhiti
+  (habitat) matnlari to'liq o'zbekcha.
+
+## Joylashtirish
+
+Bu ikkala faylni repo'ingizdagi **xuddi shu joyga** qo'yib, ustiga yozing:
 
 ```
-uzbek-changes/
-├── en/index.html
-├── functions/index.ts
-├── index.html
-├── public/
-│   ├── _headers
-│   └── edusat-academy-logo.svg      ← YANGI: EduSAT Academy logotipi
-├── uz/index.html                     ← YANGI: o'zbekcha kirish sahifasi
-├── vite.config.ts
-└── src/
-    ├── components/
-    │   ├── TopBar.tsx
-    │   ├── TopBar.module.css
-    │   └── searchInsects.ts
-    ├── data/
-    │   ├── aliases.ts
-    │   ├── insects.uz.ts             ← YANGI: o'zbekcha tur ma'lumotlari
-    │   └── guides.uz.ts              ← YANGI: o'zbekcha darslar/viktorina
-    ├── feedback/
-    │   ├── edge.ts
-    │   └── rules.ts
-    ├── i18n/
-    │   ├── types.ts
-    │   ├── locales.ts
-    │   ├── orders.ts
-    │   ├── uz.ts                     ← YANGI: o'zbekcha interfeys lug'ati
-    │   ├── hrefForLocale.ts
-    │   ├── edgeLocale.ts
-    │   ├── LanguageHint.tsx
-    │   └── _parts/
-    │       ├── common.ts, topbar.ts, cards.ts, panels.ts,
-    │       ├── feedback.ts, discovery.ts, stage.ts, part.ts
-    └── main.uz.tsx                   ← YANGI: o'zbekcha kirish nuqtasi
+src/data/insects.uz.ts
+src/data/guides.uz.ts
 ```
 
-## Qanday joylashtirish kerak
+GitHub'ga avvalgidek yuklang (veb orqali drag-and-drop yoki
+`git add -A && git commit && git push`), commit xabari masalan:
+`feat: barcha 63 tur uchun to'liq o'zbekcha tarjima`.
 
-1. O'z repo'ingizni klon qiling.
-2. Yuqoridagi fayllarni xuddi shu nom va joy bilan ustiga yozing (yangilarini
-   qo'shing).
-3. `git add -A && git commit -m "feat: o'zbek tili (uz) qo'shildi"` va push
-   qiling.
-4. Cloudflare Pages (yoki qaysi hostingda bo'lsa) `npm run build` ni qayta
-   ishga tushirsa, `dist/uz/index.html` avtomatik yaratiladi va sayt
-   `/uz/` manzilida ochiladi.
+## Tekshirilgan narsalar
 
-## Nima ishlaydi (tayyor)
+- Ikkala fayl ham haqiqiy Node.js sintaksis tekshiruvidan (`node --check`)
+  muvaffaqiyatli o'tdi.
+- `insects.uz.ts`dagi barcha 63 ta ID inglizcha versiya bilan aynan bir xil
+  tartibda va soni bilan mos keladi.
+- `guides.uz.ts`dagi barcha 63 ta kalit ham xuddi shunday mos keladi.
+- Butun build zanjiri (`scripts/make-species-pages.mjs`) soxta build bilan
+  qayta ishga tushirilib sinaldi: 63 tur × 3 til = 189 ta sahifa,
+  3 ta bosh sahifa va 192 ta yozuvli sitemap xatosiz yaratildi.
 
-- **Butun interfeys** (menyu, tugmalar, qidiruv, izohlar, viktorina, sozlamalar
-  va h.k.) to'liq o'zbekchaga o'girilgan.
-- Tur turkumlari (Coleoptera, Lepidoptera va h.k.) va metamorfoz nomlari
-  o'zbekchada.
-- `/uz/` manzili ishlaydi, brauzer tili o'zbekcha bo'lsa, edge-server
-  avtomatik shu yerga yo'naltiradi (`functions/index.ts`).
-- Yuqori paneldagi til tugmalariga "UZ" qo'shildi, bosilganda `/uz/...`ga
-  o'tadi.
-- **EduSAT Academy logotipi** yuqori panelda, barcha uch tilda (zh/en/uz)
-  ko'rinadi (`public/edusat-academy-logo.svg`). Bu oddiy SVG — agar sizda
-  tayyor logotip fayli bo'lsa, shu faylni almashtirib qo'ysangiz kifoya
-  (nomi bir xil qolishi kerak: `edusat-academy-logo.svg`, yoki
-  `TopBar.tsx`dagi yo'lni o'zgartirasiz).
-- Qidiruv, chet nomlar (aliases), fikr-mulohaza (feedback) tizimlari uch
-  tilni ham qo'llab-quvvatlaydi.
-
-## Nima hali tarjima qilinmagan (navbatdagi bosqichlar)
-
-`src/data/insects.uz.ts` va `src/data/guides.uz.ts` — bu ikki fayl hozircha
-**inglizcha nusxa** sifatida yaratilgan (sayt ishlab turishi uchun), faqat
-quyidagi **3 ta tur to'liq o'zbekchaga o'girilgan** (namuna sifatida):
-
-- `rhinoceros-beetle` (Yapon karkidon qo'ng'izi)
-- `monarch-butterfly` (Monarx kapalagi)
-- `honeybee` (G'arbiy asalari)
-
-Qolgan **420 ta tur** hali inglizcha matn bilan turibdi (fayllarning
-tuzilishi, ID'lari, turkumlari — hammasi to'g'ri, faqat matn qismi
-tarjima qilinishi kerak). Buni keyingi xabarlarda bosqichma-bosqich davom
-ettiramiz — har safar bir nechta turni tarjima qilib, ushbu ikki faylni
-yangilab boraman.
-
-Qolgan turlar ro'yxati `remaining-species.txt` faylida keltirilgan.
+Boshqa hech qanday fayl o'zgartirilmagan — bu ikkitasi avvalgi
+`uzbek-changes.zip` va `uzbek-fix-species-pages.zip`dagi fayllarning
+ustiga to'g'ridan-to'g'ri yoziladi.
